@@ -1,11 +1,13 @@
-# Copied from
-# https://debuggercafe.com/training-resnet18-from-scratch-using-pytorch/
-
 from torch.utils.data import DataLoader
 from torchvision import datasets
 from torchvision.transforms import ToTensor
 
 def get_data(batch_size=64):
+    """
+    Copied from:
+    https://debuggercafe.com/training-resnet18-from-scratch-using-pytorch/
+    """
+
     # CIFAR10 training dataset.
     dataset_train = datasets.CIFAR10(
         root='data',
