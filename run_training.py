@@ -46,7 +46,7 @@ def main():
         print(f'Excellent choice{plural}! Training model{plural} {", ".join(model_idxs)}...')
 
         for idx in model_idxs:
-            model = get_model[model_names[idx]]
+            model = get_model(model_names[idx])
 
             print(f'Training {model_names[idx]}...')
             train_cycle(model, hparams, train_loader, val_loader)
