@@ -12,6 +12,8 @@ import packed_models
 
 def main():
     out_dir = './saved_models'
+    if not os.path.exists(out_dir):
+        os.makedirs(out_dir)
 
     hparams = HParams()
     train_loader, val_loader = get_data(batch_size=hparams.batch_size, data_transforms=hparams.data_transforms)
