@@ -15,9 +15,14 @@ class HParams:
         self.weight_decay = 5e-4
         self.gamma_lr = 0.1
         self.milestones = [25, 50]
-        self.data_transforms = transforms.Compose([
+        self.data_transforms_train = transforms.Compose([
             transforms.RandomHorizontalFlip(),
             transforms.ToTensor(),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+        ])
+        self.data_transforms_test = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
         ])
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
