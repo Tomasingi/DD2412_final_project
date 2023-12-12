@@ -26,7 +26,7 @@ class HParams:
         ])
         self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
-def get_data(batch_size=64, data_transforms=None):
+def get_data(hparams):
     """
     Copied from:
     https://debuggercafe.com/training-resnet18-from-scratch-using-pytorch/
@@ -36,24 +36,24 @@ def get_data(batch_size=64, data_transforms=None):
         root='data',
         train=True,
         download=True,
-        transform=data_transforms,
+        transform=hparams.data_transforms_train,
     )
     # CIFAR10 validation dataset.
     dataset_valid = datasets.CIFAR10(
         root='data',
         train=False,
         download=True,
-        transform=transforms.ToTensor(),
+        transform=hparams.data_transforms_test
     )
     # Create data loaders.
     train_loader = DataLoader(
         dataset_train,
-        batch_size=batch_size,
+        batch_size=hparams.batch_size,
         shuffle=True
     )
     valid_loader = DataLoader(
         dataset_valid,
-        batch_size=batch_size,
+        batch_size=hparams.batch_size,
         shuffle=False
     )
     return train_loader, valid_loader

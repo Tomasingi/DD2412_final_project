@@ -16,7 +16,7 @@ def main():
         os.makedirs(out_dir)
 
     hparams = HParams()
-    train_loader, val_loader = get_data(batch_size=hparams.batch_size, data_transforms=hparams.data_transforms)
+    train_loader, val_loader = get_data(hparams)
 
     baseline_model = torch.hub.load('pytorch/vision:v0.10.0', 'resnet18', pretrained=False)
     baseline_model.fc = nn.Linear(512, 10)
