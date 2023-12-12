@@ -2,13 +2,10 @@ import os
 import numpy as np
 
 import torch
-import torch.nn as nn
 
-from utils import HParams, get_data
+from utils import HParams, get_data, get_model
 from train import train_cycle
 from test import test_cycle
-import baseline_models
-import packed_models
 
 def main():
     out_dir = './saved_models'
@@ -18,17 +15,6 @@ def main():
     hparams = HParams()
     train_loader, val_loader = get_data(hparams)
 
-    baseline_model = torch.hub.load('pytorch/vision:v0.10.0', 'resnet18', pretrained=False)
-    baseline_model.fc = nn.Linear(512, 10)
-    baseline_model_scratch = baseline_models.ResNet18()
-    packed_model = packed_models.PackedResNet18(alpha=2, gamma=2, n_estimators=4)
-
-    models = {
-        '1': baseline_model,
-        '2': baseline_model_scratch,
-        '3': packed_model,
-    }
-
     model_names = {
         '1': 'baseline',
         '2': 'baseline_scratch',
@@ -36,7 +22,7 @@ def main():
     }
 
     query_str = '\n'.join([
-        '✨Welcome to the CIFAR-10 training and testing script!✨',
+        '✨Welcome to the CIFAR-10 training script!✨',
         '===================================================',
         'Which model should be trained?',
         'Choose one or more from the following options:',
@@ -51,7 +37,7 @@ def main():
     model_idxs = input(query_str)
 
     for idx in model_idxs:
-        if not idx in models:
+        if not idx in model_names:
             print(f'Invalid model index: {idx}')
             print('Exiting...')
             exit()
@@ -60,7 +46,7 @@ def main():
         print(f'Excellent choice{plural}! Training model{plural} {", ".join(model_idxs)}...')
 
         for idx in model_idxs:
-            model = models[idx]
+            model = get_model[model_names[idx]]
 
             print(f'Training {model_names[idx]}...')
             train_cycle(model, hparams, train_loader, val_loader)

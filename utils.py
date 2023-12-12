@@ -2,9 +2,13 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 import torch
+import torch.nn as nn
 from torch.utils.data import DataLoader
 from torchvision import datasets
 import torchvision.transforms as transforms
+
+import baseline_models
+import packed_models
 
 class HParams:
     def __init__(self):
@@ -67,3 +71,14 @@ def show_example(data_loader, idx=None):
     plt.imshow(temp_img, cmap='gray')
     plt.title(f'Label: {label}')
     plt.show()
+
+def get_model(name):
+    if name == 'baseline':
+        model = torch.hub.load('pytorch/vision:v0.10.0', 'resnet18', pretrained=False)
+        model.fc = nn.Linear(512, 10)
+        return model
+    if name == 'baseline_scratch':
+        return baseline_models.ResNet18()
+    if name == 'packed':
+        return packed_models.PackedResNet18(alpha=2, gamma=2, n_estimators=4)
+    raise ValueError(f'Invalid model name: {name}')
