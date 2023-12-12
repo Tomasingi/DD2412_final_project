@@ -36,9 +36,6 @@ class BasicBlock(nn.Module):
         out = self.conv2(out)
         out = self.bn2(out)
 
-        # if self.downsample is not None:
-        #     x = self.downsample(x)
-
         out += self.downsample(x)
         out = self.relu(out)
 
@@ -51,9 +48,9 @@ class ResNet18(nn.Module):
         self.conv1 = nn.Conv2d(
             in_channels=3,
             out_channels=64,
-            kernel_size=7,
-            stride=2,
-            padding=3,
+            kernel_size=3,
+            stride=1,
+            padding=1,
             bias=False
         )
         self.bn1 = nn.BatchNorm2d(64)
@@ -122,7 +119,7 @@ class ResNet18(nn.Module):
 
     def forward(self, x):
         out = self.relu(self.bn1(self.conv1(x)))
-        out = self.maxpool(out)
+        # out = self.maxpool(out)
 
         out = self.layer1(out)
         out = self.layer2(out)
