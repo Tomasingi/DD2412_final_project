@@ -131,9 +131,9 @@ class PackedResNet18(nn.Module):
         self.conv1 = PackedConv2d(
             in_channels=3,
             out_channels=64,
-            kernel_size=7,
-            stride=2,
-            padding=3,
+            kernel_size=3,
+            stride=1,
+            padding=1,
             alpha=alpha,
             gamma=1,
             n_estimators=n_estimators,
