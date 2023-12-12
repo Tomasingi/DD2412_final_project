@@ -14,8 +14,12 @@ def main():
 
     pretrained_models = sys.argv[1:]
 
-    plural = 's' if len(sys.argv) > 2 else ''
-    print(f'Testing model{plural} {", ".join(pretrained_models)}...')
+    if len(pretrained_models) == 0:
+        print('No pretrained models specified. Testing all models...')
+        pretrained_models = os.listdir(out_dir)
+    else:
+        plural = 's' if len(sys.argv) > 2 else ''
+        print(f'Testing model{plural} {", ".join(pretrained_models)}...')
 
     for pretrained_model in pretrained_models:
         model_name = '_'.join(pretrained_model.split('_')[:-1])
