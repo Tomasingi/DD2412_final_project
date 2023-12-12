@@ -1,0 +1,1 @@
+gcloud compute scp --project majestic-hybrid-405912 --zone asia-east2-c --recurse $1 deeplearning-2-vm:~/final_project/

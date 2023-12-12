@@ -1,26 +1,44 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+import torch
 from torch.utils.data import DataLoader
 from torchvision import datasets
-from torchvision.transforms import ToTensor
+import torchvision.transforms as transforms
 
-def get_data(batch_size=64):
+class HParams:
+    def __init__(self):
+        self.epochs = 75
+        self.batch_size = 128
+        self.lr = 0.05
+        self.momentum = 0.9
+        self.weight_decay = 5e-4
+        self.gamma_lr = 0.1
+        self.milestones = [25, 50]
+        self.data_transforms = transforms.Compose([
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+        ])
+        self.device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+def get_data(batch_size=64, data_transforms=None):
     """
     Copied from:
     https://debuggercafe.com/training-resnet18-from-scratch-using-pytorch/
     """
-
     # CIFAR10 training dataset.
     dataset_train = datasets.CIFAR10(
         root='data',
         train=True,
         download=True,
-        transform=ToTensor(),
+        transform=data_transforms,
     )
     # CIFAR10 validation dataset.
     dataset_valid = datasets.CIFAR10(
         root='data',
         train=False,
         download=True,
-        transform=ToTensor(),
+        transform=transforms.ToTensor(),
     )
     # Create data loaders.
     train_loader = DataLoader(
@@ -34,3 +52,13 @@ def get_data(batch_size=64):
         shuffle=False
     )
     return train_loader, valid_loader
+
+def show_example(data_loader, idx=None):
+    # Show one example image
+    if idx is None:
+        idx = np.random.randint(0, len(data_loader.dataset))
+    img, label = data_loader.dataset[idx]
+    temp_img = np.transpose(img, (1, 2, 0))
+    plt.imshow(temp_img, cmap='gray')
+    plt.title(f'Label: {label}')
+    plt.show()
