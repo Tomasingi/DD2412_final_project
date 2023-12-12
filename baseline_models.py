@@ -2,7 +2,7 @@ import torch.nn.functional as F
 from torch import nn
 
 class BasicBlock(nn.Module):
-    def __init__(self, in_channels, out_channels, stride=1, downsample=None):
+    def __init__(self, in_channels, out_channels, stride=1, downsample=nn.Sequential()):
         super().__init__()
 
         self.conv1 = nn.Conv2d(
@@ -36,10 +36,10 @@ class BasicBlock(nn.Module):
         out = self.conv2(out)
         out = self.bn2(out)
 
-        if self.downsample is not None:
-            x = self.downsample(x)
+        # if self.downsample is not None:
+        #     x = self.downsample(x)
 
-        out += x
+        out += self.downsample(x)
         out = self.relu(out)
 
         return out

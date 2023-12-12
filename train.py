@@ -2,6 +2,8 @@ import torch
 import torch.nn as nn
 
 def train_cycle(model, hparams, train_loader, val_loader):
+    model = model.to(hparams.device)
+
     criterion = nn.CrossEntropyLoss()
     optimizer = torch.optim.SGD(
         model.parameters(),
@@ -11,8 +13,6 @@ def train_cycle(model, hparams, train_loader, val_loader):
     )
 
     running_lr = hparams.lr
-
-    model = model.to(hparams.device)
 
     for epoch in range(hparams.epochs):
         if epoch in hparams.milestones:
@@ -38,14 +38,15 @@ def train_cycle(model, hparams, train_loader, val_loader):
         model.eval()
         correct = 0
         total = 0
-        for images, labels in val_loader:
-            images = images.to(hparams.device)
-            labels = labels.to(hparams.device)
+        with torch.no_grad():
+            for images, labels in val_loader:
+                images = images.to(hparams.device)
+                labels = labels.to(hparams.device)
 
-            outputs = model(images)
-            _, predicted = torch.max(outputs, 1)
-            total += labels.size(0)
-            correct += (predicted == labels).sum()
+                outputs = model(images)
+                _, predicted = torch.max(outputs, 1)
+                total += labels.size(0)
+                correct += (predicted == labels).sum()
 
         accuracy = 100 * correct / total
         print(f'Epoch: {epoch+1}/{hparams.epochs} | Loss: {loss.item():.4f} | Accuracy: {accuracy:.2f}%')
