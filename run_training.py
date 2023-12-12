@@ -59,7 +59,12 @@ def main():
             print(f'Saving model to {path}...')
             torch.save(model.state_dict(), path)
 
-            test_cycle(model, hparams, val_loader)
+            acc, ece, aupr, auc = test_cycle(model, hparams, val_loader)
+
+            print(f'Accuracy: {acc}')
+            print(f'ECE: {ece}')
+            print(f'AUPR: {aupr}')
+            print(f'AUC: {auc}')
 
 if __name__ == '__main__':
     main()

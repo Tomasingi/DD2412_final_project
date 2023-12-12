@@ -29,7 +29,12 @@ def main():
         path = os.path.join(out_dir, pretrained_model)
         model.load_state_dict(torch.load(path))
 
-        test_cycle(model, hparams, val_loader)
+        acc, ece, aupr, auc = test_cycle(model, hparams, val_loader)
+
+        print(f'Accuracy: {acc}')
+        print(f'ECE: {ece}')
+        print(f'AUPR: {aupr}')
+        print(f'AUC: {auc}')
 
 if __name__ == '__main__':
     main()
