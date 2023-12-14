@@ -47,12 +47,9 @@ def main():
     }
 
     model_idxs = list()
-    verbose = True
-
     if len(sys.argv) == 1:
         model_idxs = get_input_from_user(model_names)
     else:
-        verbose = False
         for idx in sys.argv[1:]:
             if not idx in model_names:
                 print(f'Invalid model index: {idx}')
@@ -61,15 +58,13 @@ def main():
             model_idxs.append(idx)
 
     plural = 's' if len(model_idxs) > 1 else ''
-    if verbose:
-        print(f'Excellent choice{plural}! Training model{plural} {", ".join(model_idxs)}...')
+    print(f'Excellent choice{plural}! Training model{plural} {", ".join(model_idxs)}...')
 
     for idx in model_idxs:
         model = get_model(model_names[idx])
 
-        if verbose:
-            print(f'Training {model_names[idx]}...')
-        train_cycle(model, hparams, train_loader, val_loader, verbose=verbose)
+        print(f'Training {model_names[idx]}...')
+        train_cycle(model, hparams, train_loader, val_loader)
 
         unique_id = np.random.randint(0, 100000)
         path = os.path.join(out_dir, f'{model_names[idx]}_{unique_id}.pt')
@@ -79,13 +74,12 @@ def main():
         print(f'Saving model to {path}...')
         torch.save(model.state_dict(), path)
 
-        if verbose:
-            acc, ece, aupr, auc = test_cycle(model, hparams, val_loader)
+        acc, ece, aupr, auc = test_cycle(model, hparams, val_loader)
 
-            print(f'Accuracy: {acc}')
-            print(f'ECE: {ece}')
-            print(f'AUPR: {aupr}')
-            print(f'AUC: {auc}')
+        print(f'Accuracy: {acc}')
+        print(f'ECE: {ece}')
+        print(f'AUPR: {aupr}')
+        print(f'AUC: {auc}')
 
 if __name__ == '__main__':
     main()
