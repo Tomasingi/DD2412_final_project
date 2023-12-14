@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 
-def train_cycle(model, hparams, train_loader, val_loader):
+def train_cycle(model, hparams, train_loader, val_loader, verbose):
     model = model.to(hparams.device)
 
     criterion = nn.CrossEntropyLoss()
@@ -49,4 +49,5 @@ def train_cycle(model, hparams, train_loader, val_loader):
                 correct += (predicted == labels).sum()
 
         accuracy = 100 * correct / total
-        print(f'Epoch: {epoch+1}/{hparams.epochs} | Loss: {loss.item():.4f} | Accuracy: {accuracy:.2f}%')
+        if verbose:
+            print(f'Epoch: {epoch+1}/{hparams.epochs} | Loss: {loss.item():.4f} | Accuracy: {accuracy:.2f}%')
