@@ -30,11 +30,8 @@ class BasicBlock(nn.Module):
         self.downsample = downsample
 
     def forward(self, x):
-        out = self.conv1(x)
-        out = self.bn1(out)
-        out = self.relu(out)
-        out = self.conv2(out)
-        out = self.bn2(out)
+        out = self.relu(self.bn1(self.conv1(x)))
+        out = self.bn2(self.conv2(out))
 
         out += self.downsample(x)
         out = self.relu(out)
@@ -114,7 +111,7 @@ class ResNet18(nn.Module):
             BasicBlock(512, 512, 1)
         )
 
-        self.avgpool = nn.AdaptiveAvgPool2d(output_size=(1, 1))
+        # self.avgpool = nn.AdaptiveAvgPool2d(output_size=(1, 1))
         self.fc = nn.Linear(512, 10)
 
     def forward(self, x):
@@ -126,7 +123,8 @@ class ResNet18(nn.Module):
         out = self.layer3(out)
         out = self.layer4(out)
 
-        out = self.avgpool(out)
+        # out = self.avgpool(out)
+        out = F.avg_pool2d(out, 4)
 
         out = nn.Flatten(1)(out)
         out = self.fc(out)

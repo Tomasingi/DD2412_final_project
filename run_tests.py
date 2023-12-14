@@ -10,7 +10,7 @@ def main():
     out_dir = './saved_models'
 
     hparams = HParams()
-    train_loader, val_loader = get_data(hparams, training=False)
+    _, val_loader = get_data(hparams, training=False)
 
     pretrained_models = sys.argv[1:]
 
