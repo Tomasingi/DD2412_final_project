@@ -49,4 +49,4 @@ def train_cycle(model, hparams, train_loader, val_loader):
                 correct += (predicted == labels).sum()
 
         accuracy = 100 * correct / total
-        print(f'Epoch: {epoch+1}/{hparams.epochs} | Loss: {loss.item():.4f} | Accuracy: {accuracy:.2f}%')
+        print(f'Epoch: {epoch+1}/{hparams.epochs} | Loss: {loss.item():.4f} | Accuracy: {accuracy:.2f}%', flush=True)
