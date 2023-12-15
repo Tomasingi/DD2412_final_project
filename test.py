@@ -70,7 +70,7 @@ def test_cycle_DE(models, hparams, val_loader):
 
     return total_acc, total_ece, total_aupr, total_auc#, total_fpr95
 
-def test_cycle_PE(model, hparams, val_loader):
+def test_cycle_PE(model, hparams, val_loader, num_models=4):
     """
     Same as test_cycle, but for Packed-Ensembles
     """
@@ -93,7 +93,7 @@ def test_cycle_PE(model, hparams, val_loader):
 
             # Output is of shape (batch_size, num_models * num_classes)
             # We need to reshape it to (batch_size, num_models, num_classes)
-            outputs = outputs.reshape(images.shape[0], hparams.num_models, hparams.num_classes)
+            outputs = outputs.reshape(images.shape[0], num_models, hparams.num_classes)
             outputs = torch.mean(outputs, dim=1)
 
             acc.update(outputs, labels)
