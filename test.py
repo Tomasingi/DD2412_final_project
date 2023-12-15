@@ -70,7 +70,7 @@ def test_cycle_DE(models, hparams, val_loader):
 
             neg_one_hot_labels = torch.ones_like(outputs)
             neg_one_hot_labels.scatter_(1, labels.unsqueeze(1), 0)
-            outputs_greater_than_95th_percentile = outputs > 0.95
+            outputs_greater_than_95th_percentile = outputs > 0.05
             false_positives = torch.sum(neg_one_hot_labels * outputs_greater_than_95th_percentile)
             fpr95 += false_positives / len(val_loader.dataset)
 
@@ -116,7 +116,7 @@ def test_cycle_PE(model, hparams, val_loader, num_models=4):
 
             neg_one_hot_labels = torch.ones_like(outputs)
             neg_one_hot_labels.scatter_(1, labels.unsqueeze(1), 0)
-            outputs_greater_than_95th_percentile = outputs > 0.95
+            outputs_greater_than_95th_percentile = outputs > 0.05
             false_positives = torch.sum(neg_one_hot_labels * outputs_greater_than_95th_percentile)
             fpr95 += false_positives / len(val_loader.dataset)
 
