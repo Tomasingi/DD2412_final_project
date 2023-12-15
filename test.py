@@ -93,7 +93,7 @@ def test_cycle_PE(model, hparams, val_loader, num_models=4):
 
             # Output is of shape (batch_size, num_models * num_classes)
             # We need to reshape it to (batch_size, num_models, num_classes)
-            outputs = outputs.reshape(images.shape[0], num_models, hparams.num_classes)
+            outputs = outputs.reshape(images.shape[0], num_models, 10)
             outputs = torch.mean(outputs, dim=1)
 
             acc.update(outputs, labels)
