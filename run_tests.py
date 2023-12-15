@@ -12,6 +12,10 @@ def main():
     hparams = HParams()
     _, val_loader = get_data(hparams, training=False)
 
+    if len(sys.argv) < 2:
+        print('Missing test type')
+        print('Exiting...')
+        exit()
     test_type = sys.argv[1]
     model_fnames = sys.argv[2:]
     if len(sys.argv) < 3:
