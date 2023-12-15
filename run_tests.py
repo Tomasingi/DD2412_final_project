@@ -36,11 +36,11 @@ def main():
         models.append(model)
 
     if test_type == 's':
-        acc, ece, aupr, auc = test_cycle(models[0], hparams, val_loader)
+        acc, ece, aupr, auc, fpr95 = test_cycle(models[0], hparams, val_loader)
     elif test_type == 'de':
-        acc, ece, aupr, auc = test_cycle_DE(models, hparams, val_loader)
+        acc, ece, aupr, auc, fpr95 = test_cycle_DE(models, hparams, val_loader)
     elif test_type == 'pe':
-        acc, ece, aupr, auc = test_cycle_PE(models[0], hparams, val_loader)
+        acc, ece, aupr, auc, fpr95 = test_cycle_PE(models[0], hparams, val_loader)
     else:
         raise ValueError(f'Unknown test type: {test_type}')
 
@@ -48,6 +48,7 @@ def main():
     print(f'ECE: {ece}')
     print(f'AUPR: {aupr}')
     print(f'AUC: {auc}')
+    print(f'FPR95: {fpr95}')
 
 if __name__ == '__main__':
     main()
