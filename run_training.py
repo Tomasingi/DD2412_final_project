@@ -74,6 +74,7 @@ def main():
         print(f'Saving model to {path}...')
         torch.save(model.state_dict(), path)
 
+        # Run tests
         acc, ece, aupr, auc = test_cycle(model, hparams, val_loader)
 
         print(f'Accuracy: {acc}')
