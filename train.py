@@ -1,6 +1,8 @@
 import torch
 import torch.nn as nn
 
+import packed_models
+
 def train_cycle(model, hparams, train_loader, val_loader):
     model = model.to(hparams.device)
 
@@ -27,6 +29,8 @@ def train_cycle(model, hparams, train_loader, val_loader):
         model.train()
         for i, (images, labels) in enumerate(train_loader):
             images = images.to(hparams.device)
+            if isinstance(model, packed_models.PackedResNet18):
+                labels = labels.repeat(4)
             labels = labels.to(hparams.device)
 
             optimizer.zero_grad()
