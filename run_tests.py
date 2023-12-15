@@ -44,11 +44,11 @@ def main():
     else:
         raise ValueError(f'Unknown test type: {test_type}')
 
-    print(f'Accuracy: {acc}')
+    print(f'Accuracy: {acc * 100}')
     print(f'ECE: {ece}')
-    print(f'AUPR: {aupr}')
-    print(f'AUC: {auc}')
-    print(f'FPR95: {fpr95}')
+    print(f'AUPR: {aupr * 100}')
+    print(f'AUC: {auc * 100}')
+    print(f'FPR95: {fpr95 * 100}')
 
 if __name__ == '__main__':
     main()
