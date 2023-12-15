@@ -30,7 +30,13 @@ def train_cycle(model, hparams, train_loader, val_loader):
         for i, (images, labels) in enumerate(train_loader):
             images = images.to(hparams.device)
             if isinstance(model, packed_models.PackedResNet18):
-                labels = labels.repeat(4)
+                labels_one_hot = torch.zeros(
+                    (labels.size(0), 10),
+                    dtype=torch.float32
+                )
+                labels_one_hot[torch.arange(labels.size(0)), labels] = 1
+                packed_labels_one_hot = labels_one_hot.repeat(1, 4)
+                labels = packed_labels_one_hot
             labels = labels.to(hparams.device)
 
             optimizer.zero_grad()
