@@ -30,8 +30,8 @@ def main():
         model_name = '_'.join(model_fname.split('_')[:-1])
         model = get_model(model_name)
 
-        print(f'Loading model from {model_name}...')
-        path = os.path.join(out_dir, model_name)
+        print(f'Loading model from {model_fname}...')
+        path = os.path.join(out_dir, model_fname)
         model.load_state_dict(torch.load(path))
         models.append(model)
 
